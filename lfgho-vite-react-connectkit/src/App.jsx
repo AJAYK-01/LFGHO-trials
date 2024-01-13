@@ -1,12 +1,19 @@
 import { WagmiConfig, createConfig } from "wagmi";
 import { ConnectKitProvider, ConnectKitButton, getDefaultConfig } from "connectkit";
-import MyComponent from "./components/Info";
+import { MintNFT } from "./components/Deposit";
+import { arbitrum, mainnet, optimism, polygon, polygonMumbai, sepolia } from "viem/chains";
+import Profile from "./components/ReadContract";
+import { SendTransaction } from "./components/SendTransaction";
+import ReadContract from "./components/ReadContract";
+
+const chains = [polygonMumbai, sepolia, mainnet, polygon, optimism, arbitrum];
 
 const config = createConfig(
   getDefaultConfig({
     // Required API Keys
     alchemyId: import.meta.env.VITE_ALCHEMY_ID, // or infuraId
     walletConnectProjectId: import.meta.env.VITE_WALLETCONNECT_PROJECT_ID,
+    chains: chains,
 
     // Required
     appName: "LFGHO",
@@ -23,7 +30,9 @@ const App = () => {
   return (
     <WagmiConfig config={config}>
       <ConnectKitProvider theme="midnight" >
-        <MyComponent />
+        {/* <SendTransaction /> */}
+        <MintNFT />
+        <ReadContract />
         <div style={{ position: 'absolute', top: 10, right: 10 }}>
           <ConnectKitButton />
         </div>
