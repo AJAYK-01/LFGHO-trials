@@ -1,10 +1,8 @@
 import { WagmiConfig, createConfig } from "wagmi";
 import { ConnectKitProvider, ConnectKitButton, getDefaultConfig } from "connectkit";
-import { MintNFT } from "./components/Deposit";
+import { ContractInteraction } from "./components/ContractInteraction";
 import { arbitrum, mainnet, optimism, polygon, polygonMumbai, sepolia } from "viem/chains";
-import Profile from "./components/ReadContract";
 import { SendTransaction } from "./components/SendTransaction";
-import ReadContract from "./components/ReadContract";
 
 const chains = [polygonMumbai, sepolia, mainnet, polygon, optimism, arbitrum];
 
@@ -30,9 +28,8 @@ const App = () => {
   return (
     <WagmiConfig config={config}>
       <ConnectKitProvider theme="midnight" >
-        {/* <SendTransaction /> */}
-        <MintNFT />
-        <ReadContract />
+        <SendTransaction />
+        <ContractInteraction />
         <div style={{ position: 'absolute', top: 10, right: 10 }}>
           <ConnectKitButton />
         </div>

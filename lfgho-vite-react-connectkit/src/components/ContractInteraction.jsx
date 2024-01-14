@@ -1,23 +1,29 @@
 import React from 'react';
 import {
+    useAccount,
     useContractRead,
     useContractWrite,
 } from 'wagmi';
 import { abi } from '../contracts/abis/bank';
+import BigNumber from 'bignumber.js';
 
-export function MintNFT() {
+export function ContractInteraction() {
+
+    const account = useAccount();
 
     const {
         data: balance,
-        isSuccess: isBSuccess,
+        status,
+        refetch: refetchBalance,
     } = useContractRead(
         {
+            account: account.address,
             address: '0x979a21D311CF64CE0589f77740B9BDF0F0502c5C',
             abi: abi,
             functionName: 'checkBalance',
+            onSuccess: (() => { refetchBalance() })
         }
     );
-
 
     const {
         data: Ddata,
@@ -30,6 +36,7 @@ export function MintNFT() {
             address: '0x979a21D311CF64CE0589f77740B9BDF0F0502c5C',
             abi: abi,
             functionName: 'deposit',
+            onSuccess: (() => { refetchBalance() })
         }
     );
 
@@ -37,10 +44,10 @@ export function MintNFT() {
     async function deposit(e) {
         e.preventDefault();
         const formData = new FormData(e.target);
-        const amount = formData.get('dvalue');
+        const amount = new BigNumber(formData.get('dvalue')).multipliedBy(new BigNumber(10).pow(18));
 
         depositContract?.({
-            value: BigInt(amount * (10 ** 18)),
+            value: BigInt(amount),
         });
     }
 
@@ -61,18 +68,17 @@ export function MintNFT() {
     async function withdraw(e) {
         e.preventDefault();
         const formData = new FormData(e.target);
-        const amount = formData.get('wvalue');
+        const amount = new BigNumber(formData.get('wvalue')).multipliedBy(new BigNumber(10).pow(18));
 
         withdrawContract?.({
-            args: [BigInt(amount * (10 ** 18))]
+            args: [BigInt(amount)]
         });
     }
 
     return (
         <>
-            <div>
-                {isBSuccess ? "Bank Balance" : ""} {balance[0]}
-            </div>
+            <div> Bank Balance: {(parseFloat(Number(balance) / (10 ** 18)).toFixed(20))} ETH </div>
+
             <form onSubmit={deposit}>
                 <input name="dvalue" placeholder="0.05" required />
                 <button

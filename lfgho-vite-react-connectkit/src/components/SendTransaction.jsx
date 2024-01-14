@@ -31,7 +31,7 @@ export function SendTransaction() {
                 disabled={isConfirming}
                 type="submit"
             >
-                {isConfirming ? 'Confirming...' : 'Send'}
+                {isConfirming ? 'Confirming...' : 'Send Funds'}
             </button>
             {data && <div>Transaction Hash: {data.hash}</div>}
             {isConfirming && <div>Waiting for confirmation...</div>}
