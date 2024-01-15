@@ -3,6 +3,7 @@ import { ConnectKitProvider, ConnectKitButton, getDefaultConfig } from "connectk
 import { ContractInteraction } from "./components/ContractInteraction";
 import { arbitrum, mainnet, optimism, polygon, polygonMumbai, sepolia } from "viem/chains";
 import { SendTransaction } from "./components/SendTransaction";
+import UserNFTList from "./components/UserNFTList";
 
 const chains = [polygonMumbai, sepolia, mainnet, polygon, optimism, arbitrum];
 
@@ -33,6 +34,7 @@ const App = () => {
         <div style={{ position: 'absolute', top: 10, right: 10 }}>
           <ConnectKitButton />
         </div>
+        <UserNFTList />
       </ConnectKitProvider>
     </WagmiConfig >
   );
