@@ -6,7 +6,7 @@ import axios from "axios";
 
 export default function UserNFTList() {
   const [image, setImage] = useState("");
-  const INFURA_ID = "c8143c9f8b3c48a297b6c51fe5e13702";
+  const INFURA_ID = import.meta.env.VITE_INFURA_ID;
   const web3 = new Web3(
     new Web3.providers.HttpProvider(`https://mainnet.infura.io/v3/${INFURA_ID}`)
   );
